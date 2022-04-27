@@ -17,4 +17,7 @@ use App\Http\Controllers\card;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/tampil', [card::class, 'tampil']);
 Route::post('/insert', [card::class, 'insert']);
+Route::get(('/tampil/{id}'), [card::class, 'tampil_byID']);

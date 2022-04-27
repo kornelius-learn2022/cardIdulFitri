@@ -13,26 +13,44 @@ class card extends Controller
     public function tampil()
     {
         $tampil = card_model::all();
-        return $tampil;
+        $response = ([
+            "status" => 200,
+            "data" => $tampil
+        ]);
+        return response()->json($response);
     }
 
     public function insert(Request $request)
     {
+        $response = [];
         try {
             $content = new card_model;
-            $content->nama_user = $request->input('nama');
+            $content->x = $request->input('nama');
             $content->pesan_user = $request->input('pesan');
             $tanggal = date('Y-m-d H:i:s');
             $content->tanggal_dibuat = $request->input('tanggal', $tanggal);
             $content->save();
-            $response = [
-                'message' => "Data tersimpan"
-            ];
-            return response()->json($response);
+            $response['status'] = 200;
+            $response['message'] = "Data tersimpan";
         } catch (Exception) {
-            return response()->json([
-                'message' => "Data tidak tersimpan"
-            ]);
+            $response['status'] = 200;
+            $response['message'] = "Data tidak tersimpan";
         }
+        return response()->json($response);
+    }
+
+    public function tampil_byID($id)
+    {
+        $response = [];
+        $content = card_model::where('id_user', $id)->get();
+        if ($content->count() == 0) {
+            $response['message'] = "Data tidak ditemukan";
+        } else {
+            $response["status"] = 200;
+            $response["data"] = $content;
+        }
+
+
+        return response()->json(($response));
     }
 }

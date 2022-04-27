@@ -19,3 +19,4 @@ Route::get('/', function () {
 
 Route::get('/tampil', [card::class, 'tampil']);
 Route::post('/insert', [card::class, 'insert']);
+Route::get(('/tampil/{id}'), [card::class, 'tampil_byID']);
